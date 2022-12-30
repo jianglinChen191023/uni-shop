@@ -1,4 +1,4 @@
-<template>
+∑<template>
 	<view class="card">
 		<swiper indicator-color="rgba(245, 245, 245, 1)" indicator-active-color="#42E2CD" class="swiper-box"
 			:indicator-dots="true" :circular="true" :autoplay="true" :interval="3000" :duration="1000"
