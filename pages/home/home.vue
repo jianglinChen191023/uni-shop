@@ -1,5 +1,10 @@
 <template>
 	<view>
+		<!-- 搜索组件 -->
+		<view class="search-box">
+			<mySearch @click="gotoSearch"></mySearch>
+		</view>
+
 		<!-- 轮播图区域 -->
 		<uniSwiper :swiperList="swiperList"></uniSwiper>
 
@@ -25,7 +30,8 @@
 					</navigator>
 					<!-- 右侧 4 个小图片的盒子 -->
 					<view class="right-img-box">
-						<navigator :url="item2.url" class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2">
+						<navigator :url="item2.url" class="right-img-item" v-for="(item2, i2) in item.product_list"
+							:key="i2">
 							<image :src="item2.image_src" :style="{width: item2.image_width + 'rpx'}" mode="widthFix"
 								v-if="i2 !== 0">
 							</image>
@@ -39,6 +45,7 @@
 
 <script>
 	import uniSwiper from "@/components/uni-swiper/uni-swiper.vue"
+	import mySearch from "@/components/my-search/my-search.vue"
 	export default {
 		data() {
 			return {
@@ -49,7 +56,8 @@
 			};
 		},
 		components: {
-			uniSwiper
+			uniSwiper,
+			mySearch
 		},
 		onLoad() {
 			// 轮播图数据
@@ -60,6 +68,11 @@
 			this.getFloorList()
 		},
 		methods: {
+			gotoSearch() {
+				uni.navigateTo({
+					url: '/subpkg/search/search'
+				})
+			},
 			async getSwiperList() {
 				const {
 					data: res
@@ -106,6 +119,15 @@
 </script>
 
 <style lang="scss">
+	.search-box {
+		// 设置定位效果为“吸顶”
+		position: sticky;
+		// 吸顶的“位置”
+		top: 0;
+		// 提高层级，防止被轮播图覆盖
+		z-index: 999;
+	}
+
 	.nav-list {
 		display: flex;
 		justify-content: space-around;

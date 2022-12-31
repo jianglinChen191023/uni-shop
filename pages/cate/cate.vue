@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- 搜索框区域 -->
+		<my-search @click="gotoSearch"></my-search>
+
 		<view class="scroll-view-container">
 			<!-- 左侧的滚动视图区域 -->
 			<scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -31,7 +34,11 @@
 </template>
 
 <script>
+	import mySearch from '@/components/my-search/my-search.vue'
 	export default {
+		components: {
+			mySearch
+		},
 		data() {
 			return {
 				wh: 0,
@@ -48,12 +55,17 @@
 			// 获取当前系统的信息
 			const sysInfo = uni.getSystemInfoSync()
 			// 为 wh 窗口可用高度动态赋值
-			this.wh = sysInfo.windowHeight
+			this.wh = sysInfo.windowHeight - 50
 
 			// 调用获取分类列表数据的方法
 			this.getCateList()
 		},
 		methods: {
+			gotoSearch() {
+				uni.navigateTo({
+					url: '/subpkg/search/search'
+				})
+			},
 			// 点击三级分类项跳转到商品列表页面
 			gotoGoodsList(item3) {
 				uni.navigateTo({
