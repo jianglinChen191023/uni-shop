@@ -1,6 +1,6 @@
 <template>
 	<view>
-		My
+		{{message | tofixed}}
 	</view>
 </template>
 
@@ -8,8 +8,14 @@
 	export default {
 		data() {
 			return {
-				
+				message: 22
 			};
+		},
+		filters: {
+			tofixed(v) {
+				console.log(1);
+				return v.toFixed(2)
+			}
 		}
 	}
 </script>

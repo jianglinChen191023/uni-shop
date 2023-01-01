@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 搜索框区域 -->
-		<my-search @click="gotoSearch"></my-search>
+		<mySearch @click="gotoSearch"></mySearch>
 
 		<view class="scroll-view-container">
 			<!-- 左侧的滚动视图区域 -->

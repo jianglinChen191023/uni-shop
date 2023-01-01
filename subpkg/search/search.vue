@@ -102,7 +102,6 @@
 				})
 				if (res.meta.status !== 200) return uni.$showMsg()
 				this.searchResults = res.message
-				console.log(this.searchResults);
 				// 1. 查询到搜索建议之后，调用 saveSearchHistory() 方法保存搜索关键词
 				this.saveSearchHistory()
 			},
@@ -113,7 +112,6 @@
 				this.timer = setTimeout(() => {
 					// 如果 500 毫秒内，没有触发新的输入事件，则为搜索关键词赋值
 					this.kw = e
-					console.log(this.kw)
 					// 根据关键词，查询搜索建议列表
 					this.getSearchList()
 				}, 500)
