@@ -18,6 +18,7 @@ import { createSSRApp } from 'vue'
 import App from './App.vue'
 /// 配置网络请求
 import { $http } from '@escook/request-miniprogram'
+import { createPinia } from 'pinia'
 
 uni.$http = $http
 // 配置请求根路径
@@ -49,6 +50,8 @@ uni.$showMsg = function (title = '数据加载失败！', duration = 1500) {
 
 export function createApp() {
   const app = createSSRApp(App)
+	const pinia = createPinia()
+	app.use(pinia)
   return {
     app
   }

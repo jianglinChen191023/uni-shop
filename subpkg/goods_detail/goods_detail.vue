@@ -42,7 +42,32 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapActions
+	} from 'pinia'
+	import {
+		useCartStore
+	} from '@/stores/cart.js'
+
 	export default {
+		watch: {
+			// 定义 total 侦听器，指向一个配置对象
+			total: {
+				// handler 属性用来定义侦听器的 function 处理函数
+				handler(newVal) {
+					const findResult = this.options.find(x => x.text === '购物车')
+					if (findResult) {
+						findResult.info = newVal
+					}
+				},
+				// immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+				immediate: true
+			}
+		},
+		computed: {
+			...mapState(useCartStore, ['total'])
+		},
 		data() {
 			return {
 				// 商品详情对象
@@ -54,7 +79,7 @@
 				}, {
 					icon: 'cart',
 					text: '购物车',
-					info: 2
+					info: 0
 				}],
 				// 右侧按钮组的配置对象
 				buttonGroup: [{
@@ -77,6 +102,25 @@
 			this.getGoodsDetail(goods_id)
 		},
 		methods: {
+			...mapActions(useCartStore, ['addToCart']),
+			// 右侧按钮的点击事件处理函数
+			buttonClick(e) {
+				// 1. 判断是否点击了 加入购物车 按钮
+				if (e.content.text === '加入购物车') {
+					// 2. 组织一个商品的信息对象
+					const goods = {
+						goods_id: this.goods_info.goods_id, // 商品的Id
+						goods_name: this.goods_info.goods_name, // 商品的名称
+						goods_price: this.goods_info.goods_price, // 商品的价格
+						goods_count: 1, // 商品的数量
+						goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+						goods_state: true // 商品的勾选状态
+					}
+
+					// 3. 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+					this.addToCart(goods)
+				}
+			},
 			// 左侧按钮的点击事件处理函数
 			onClick(e) {
 				if (e.content.text === '购物车') {
