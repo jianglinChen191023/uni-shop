@@ -7,7 +7,13 @@ import {
 export const useUserStore = defineStore('user', {
 	state: () => ({
 		// 收货地址
-		address: JSON.parse(uni.getStorageSync('address') || '{}')
+		address: JSON.parse(uni.getStorageSync('address') || '{}'),
+		// 登录成功之后的 token 字符串
+		token: uni.getStorageSync('token') || '',
+		// 用户的基本信息
+		userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
+		// 重定向的 object 对象 { openType, from }
+		redirectInfo: null
 	}),
 	getters: {
 		// 收货详细地址的计算属性
@@ -20,6 +26,33 @@ export const useUserStore = defineStore('user', {
 		}
 	},
 	actions: {
+		// 更新重定向的信息对象
+		updateRedirectInfo(info) {
+			this.redirectInfo = info
+		},
+
+		// 更新 token 字符串
+		updateToken(token) {
+			this.token = token
+			this.saveTokenToStorage()
+		},
+
+		// 将 token 字符串持久化存储到本地
+		saveTokenToStorage() {
+			uni.setStorageSync('token', this.token)
+		},
+
+		// 更新用户的基本信息
+		updateUserInfo(userinfo) {
+			this.userinfo = userinfo
+			this.saveUserInfoToStorage()
+		},
+
+		// 将 userinfo 持久化存储到本地
+		saveUserInfoToStorage() {
+			uni.setStorageSync('userinfo', JSON.stringify(this.userinfo))
+		},
+
 		// 更新收货地址
 		updateAddress(address) {
 			this.address = address
